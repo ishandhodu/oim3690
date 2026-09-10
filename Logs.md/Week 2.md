@@ -1,0 +1,13 @@
+Log for week 2
+
+#What you worked on
+In week two I worked on setting up my repo and the daily logs system. If your reading this it was a success :)
+
+#What gave you trouble, and where you are still stuck
+I guess figuring out how VS Code and GitHub interact with each other gave me some trouble.
+
+#Something new you picked up, in class or anywhere else
+I started to learn about how caches work, what a 404 error means, how websites pages load and what IP addresses are used for
+
+#Something you noticed about working with AI this week
+In one my personal projects I realized that Gemini is really good at taking screen recorded videos of designs, and recreating the code line for line.
