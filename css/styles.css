@@ -1,0 +1,134 @@
+:root {
+  --color-bg: #f3eee4;
+  --color-ink: #2b2a28;
+  --color-moss: #4b5d45;
+  --color-rust: #a0632e;
+  --color-line: #d9cfbc;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Roboto', sans-serif;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+}
+
+header {
+  margin-bottom: var(--space-4);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--color-moss);
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+p {
+  font-style: normal;
+  margin: 0 0 var(--space-3);
+}
+
+.intro {
+  font-style: italic;
+  font-size: 1.125rem;
+  max-width: 60ch;
+}
+
+ul {
+  padding-left: 1.25rem;
+  margin: 0 0 var(--space-4);
+}
+
+li {
+  margin-bottom: 0.35rem;
+}
+
+a {
+  color: var(--color-rust);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-moss);
+  text-decoration-color: var(--color-moss);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-moss);
+  outline-offset: 3px;
+}
+
+figure {
+  margin: var(--space-4) 0;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--color-line);
+}
+
+figcaption {
+  margin-top: var(--space-1);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-ink);
+  opacity: 0.75;
+}
+
+footer {
+  margin-top: var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+footer p {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a {
+    transition: none;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: var(--space-4) var(--space-2);
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+}
