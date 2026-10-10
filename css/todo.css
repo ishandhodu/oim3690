@@ -1,0 +1,77 @@
+#todo-form {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+#todo-form label {
+  display: none;
+}
+
+#todo-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+#todo-form button {
+  margin-bottom: 0;
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.filter-btn {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+  padding: 0.3rem var(--space-2);
+  font-size: 0.875rem;
+}
+
+.filter-btn:hover {
+  background: var(--color-line);
+}
+
+.filter-btn.active {
+  background: var(--color-moss);
+  color: #fff;
+  border-color: var(--color-moss);
+}
+
+#todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.todo-item .todo-text {
+  flex: 1;
+}
+
+.todo-item.done .todo-text {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.todo-item .delete-btn {
+  background: transparent;
+  color: var(--color-rust);
+  border: none;
+  font-size: 0.875rem;
+  padding: 0.2rem var(--space-1);
+}
+
+.todo-item .delete-btn:hover {
+  text-decoration: underline;
+  background: transparent;
+}
