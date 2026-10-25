@@ -8,6 +8,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .intro {
+      margin-bottom: var(--space-3);
+    }
+
+    .receipt {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--color-line);
+      border-radius: 8px;
+      padding: var(--space-3);
+      max-width: 360px;
+    }
+
+    .receipt.is-visible {
+      display: block;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0;
+    }
+
+    .receipt-row.bonus {
+      color: var(--color-rust);
+    }
+
+    .receipt-row.total {
+      border-top: 1px solid var(--color-line);
+      margin-top: var(--space-1);
+      padding-top: var(--space-2);
+      font-weight: 600;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+
+    .receipt-note {
+      margin: var(--space-2) 0 0;
+      font-size: 0.85rem;
+      font-style: italic;
+      opacity: 0.75;
+    }
+  </style>
 </head>
 <body>
 
@@ -16,6 +60,8 @@
   </header>
 
   <main>
+    <p class="intro">Carts of $100+ get a discount, members get an extra break, and carts of $300+ earn a Big Spender Bonus on top of either one.</p>
+
     <form id="discount-form">
       <label for="total-input">Cart total</label>
       <input type="number" id="total-input" name="total-input" placeholder="Enter cart total" min="0" step="0.01" required>
@@ -28,7 +74,25 @@
       <button type="submit">Calculate discount</button>
     </form>
 
-    <p id="result"></p>
+    <div class="receipt" id="receipt">
+      <div class="receipt-row">
+        <span>Subtotal</span>
+        <span id="receipt-subtotal"></span>
+      </div>
+      <div class="receipt-row">
+        <span id="receipt-discount-label">Member discount</span>
+        <span id="receipt-discount"></span>
+      </div>
+      <div class="receipt-row bonus" id="receipt-bonus-row">
+        <span>Big Spender Bonus</span>
+        <span id="receipt-bonus"></span>
+      </div>
+      <div class="receipt-row total">
+        <span>You pay</span>
+        <span id="receipt-total"></span>
+      </div>
+      <p class="receipt-note" id="receipt-note"></p>
+    </div>
   </main>
 
   <footer>
@@ -42,18 +106,43 @@
       else return 0;
     }
 
+    // My own rule: Big Spender Bonus — an extra $15 off any cart of $300+,
+    // stacked on top of whatever membership discount already applies.
+    function getBigSpenderBonus(total) {
+      return total >= 300 ? 15 : 0;
+    }
+
     const form = document.getElementById('discount-form');
     const totalInput = document.getElementById('total-input');
     const memberInput = document.getElementById('member-input');
-    const result = document.getElementById('result');
+    const receipt = document.getElementById('receipt');
+    const receiptSubtotal = document.getElementById('receipt-subtotal');
+    const receiptDiscountLabel = document.getElementById('receipt-discount-label');
+    const receiptDiscount = document.getElementById('receipt-discount');
+    const receiptBonusRow = document.getElementById('receipt-bonus-row');
+    const receiptBonus = document.getElementById('receipt-bonus');
+    const receiptTotal = document.getElementById('receipt-total');
+    const receiptNote = document.getElementById('receipt-note');
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const total = parseFloat(totalInput.value);
       const isMember = memberInput.checked;
       const discount = getDiscount(total, isMember);
-      const finalPrice = total - discount;
-      result.textContent = `Cart total: $${total.toFixed(2)} — Discount: $${discount} — You pay: $${finalPrice.toFixed(2)}`;
+      const bonus = getBigSpenderBonus(total);
+      const finalPrice = total - discount - bonus;
+
+      receiptSubtotal.textContent = `$${total.toFixed(2)}`;
+      receiptDiscountLabel.textContent = isMember ? 'Member discount' : 'Discount';
+      receiptDiscount.textContent = `-$${discount.toFixed(2)}`;
+      receiptBonusRow.style.display = bonus > 0 ? 'flex' : 'none';
+      receiptBonus.textContent = `-$${bonus.toFixed(2)}`;
+      receiptTotal.textContent = `$${finalPrice.toFixed(2)}`;
+      receiptNote.textContent = bonus > 0
+        ? 'Carts of $300+ earn the Big Spender Bonus on top of any membership discount.'
+        : '';
+
+      receipt.classList.add('is-visible');
     });
   </script>
 
