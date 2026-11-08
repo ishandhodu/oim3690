@@ -2,8 +2,9 @@
 // environment variable you set in the Vercel dashboard, so it never reaches
 // the page. Live Server and GitHub Pages cannot run this file.
 
-// Change the model here. Anything on https://openrouter.ai/models works.
-const MODEL = 'openai/gpt-5-mini';
+// Change the model here. The class key only allows this one model; any other
+// is refused by the course's OpenRouter guardrail.
+const MODEL = 'deepseek/deepseek-v4.1-flash-1017';
 
 module.exports = async (req, res) => {
   // The page sends POST. Anything else is a mistake, so say so and stop.
