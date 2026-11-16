@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightning Talk: Everyone can build now</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #f3eee4;
+      --color-ink: #2b2a28;
+      --color-moss: #4b5d45;
+      --color-rust: #a0632e;
+      --color-line: #d9cfbc;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Roboto', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-ink);
+      font-family: var(--font-body);
+      overflow: hidden;
+    }
+
+    .deck { position: relative; height: 100%; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(2rem, 7vw, 6rem);
+      padding-bottom: clamp(4rem, 9vh, 6rem);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .slide.active { display: flex; }
+
+    .kicker {
+      font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-rust);
+      font-weight: 500;
+      margin: 0 0 1.25rem;
+    }
+
+    h1, h2 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.08;
+      margin: 0 0 1.5rem;
+      color: var(--color-ink);
+    }
+    h1 { font-size: clamp(2.6rem, 7.5vw, 6rem); }
+    h2 { font-size: clamp(2rem, 5vw, 3.8rem); }
+
+    p, li {
+      font-size: clamp(1.15rem, 2.4vw, 1.8rem);
+      line-height: 1.45;
+      margin: 0 0 1rem;
+      max-width: 34em;
+    }
+
+    .accent { color: var(--color-moss); }
+    .rust { color: var(--color-rust); }
+
+    .sub {
+      color: var(--color-moss);
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    }
+
+    /* Slide 2: the numbers */
+    .bars { margin-top: 1rem; max-width: 900px; }
+    .bar-row { margin-bottom: 1.6rem; }
+    .bar-label {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .bar-label strong {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+      font-weight: 600;
+    }
+    .bar-track {
+      height: clamp(1.4rem, 3.2vw, 2.2rem);
+      background: var(--color-line);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bar-fill.apps { width: 100%; background: var(--color-moss); }
+    .bar-fill.downloads { width: 2%; min-width: 6px; background: var(--color-rust); }
+
+    .source {
+      font-size: clamp(0.8rem, 1.3vw, 1rem);
+      color: #6b665c;
+      margin-top: 1rem;
+    }
+
+    /* Slide 3: three scarce things */
+    .scarce {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.75rem, 2vw, 1.5rem);
+      margin-top: 1rem;
+      max-width: 1000px;
+    }
+    .scarce div {
+      border-top: 3px solid var(--color-moss);
+      padding-top: 0.9rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.15;
+    }
+    .scarce span {
+      display: block;
+      margin-top: 0.4rem;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+      color: #5a564d;
+    }
+
+    /* Slide 5: the question */
+    .question {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(2rem, 5.2vw, 4rem);
+      line-height: 1.15;
+      max-width: 18em;
+      margin: 0 0 1.5rem;
+    }
+    .sources { margin-top: auto; padding-top: 1.5rem; }
+    .sources p {
+      font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+      color: #6b665c;
+      margin: 0 0 0.25rem;
+      max-width: none;
+    }
+    .sources a { color: var(--color-moss); }
+
+    /* Chrome */
+    .progress {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .progress button {
+      width: 0.7rem; height: 0.7rem;
+      border-radius: 50%;
+      border: 0;
+      padding: 0;
+      background: var(--color-line);
+      cursor: pointer;
+    }
+    .progress button.active { background: var(--color-moss); transform: scale(1.3); }
+    .hint {
+      position: fixed;
+      right: 1rem; bottom: 0.9rem;
+      font-size: 0.8rem;
+      color: #8a8478;
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" id="deck">
+
+    <section class="slide active" aria-label="Slide 1">
+      <p class="kicker">OIM 3690 &middot; Lightning talk &middot; Discussion</p>
+      <h1>Everyone can build now.<br><span class="accent">Is anyone building anything?</span></h1>
+      <p class="sub">What vibe coding did to the App Store, and what it says about us.</p>
+    </section>
+
+    <section class="slide" aria-label="Slide 2">
+      <p class="kicker">The numbers</p>
+      <h2>Supply exploded. Demand barely moved.</h2>
+      <div class="bars">
+        <div class="bar-row">
+          <div class="bar-label"><span>New App Store apps, first half of 2026 (about 560,000)</span><strong>~2x</strong></div>
+          <div class="bar-track"><div class="bar-fill apps"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>App Store downloads</span><strong>+2%</strong></div>
+          <div class="bar-track"><div class="bar-fill downloads"></div></div>
+        </div>
+      </div>
+      <p class="source">Sensor Tower data as reported by The New York Times, July 20, 2026. New apps compared with the first half of 2025.</p>
+    </section>
+
+    <section class="slide" aria-label="Slide 3">
+      <p class="kicker">My claim</p>
+      <h2>When code is cheap, code stops being the hard part.</h2>
+      <p>The barrier that used to filter ideas was technical. It is gone. What is left to filter on:</p>
+      <div class="scarce">
+        <div>A real problem<span>Someone has to actually have it</span></div>
+        <div>A real person<span>Who will use the thing and tell you</span></div>
+        <div>Taste<span>Knowing what to cut and when it is done</span></div>
+      </div>
+      <p style="margin-top:1.5rem">In my own client work with Claude Code, the build is the fast part. Deciding what to build is not.</p>
+    </section>
+
+    <section class="slide" aria-label="Slide 4">
+      <p class="kicker">The counterargument</p>
+      <h2>Downloads may be the wrong scoreboard.</h2>
+      <p>Plenty of new apps may serve a tiny audience that matters a lot to that audience: a gym, a classroom, one business. Downloads cannot see that.</p>
+      <p>But the gatekeepers noticed the flood. Apple blocked updates to vibe coding apps such as <span class="rust">Replit</span> and <span class="rust">Vibecode</span> earlier this year, and review teams are under strain.</p>
+      <p class="source">Sources: Gizmodo, AI Weekly, The Information via 9to5Mac, April 2026.</p>
+    </section>
+
+    <section class="slide" aria-label="Slide 5">
+      <p class="kicker">Your turn</p>
+      <p class="question">Has anything you built with AI been used by someone who was not you or a grader?</p>
+      <p class="sub">If yes, what made it different? If no, is that a problem?</p>
+      <div class="sources">
+        <p>Sources</p>
+        <p><a href="https://9to5mac.com/2026-07-20/report-app-store-added-nearly-as-many-new-apps-in-h1-2026-as-in-all-of-2025/">9to5Mac: App Store added nearly as many new apps in H1 2026 as in all of 2025</a></p>
+        <p><a href="https://www.techspot.com/news/113213-apple-app-store-inundated-low-quality-vibecoded-apps.html">TechSpot: App Store inundated with low-quality vibecoded apps</a></p>
+        <p><a href="https://gizmodo.com/apple-app-store-experiences-surge-in-new-apps-amid-vibe-coding-boom-2000742653">Gizmodo: App Store surge in new apps amid vibe coding boom</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="progress" id="progress" aria-label="Slide navigation"></nav>
+  <div class="hint">Arrow keys or click</div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const progress = document.getElementById('progress');
+    let current = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', (e) => { e.stopPropagation(); show(i); });
+      progress.appendChild(dot);
+    });
+
+    function show(i) {
+      current = Math.max(0, Math.min(slides.length - 1, i));
+      slides.forEach((s, n) => s.classList.toggle('active', n === current));
+      Array.from(progress.children).forEach((d, n) => d.classList.toggle('active', n === current));
+      history.replaceState(null, '', '#' + (current + 1));
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(current + 1); }
+      else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); show(current - 1); }
+      else if (e.key === 'Home') show(0);
+      else if (e.key === 'End') show(slides.length - 1);
+    });
+
+    document.getElementById('deck').addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      show(e.clientX < window.innerWidth / 3 ? current - 1 : current + 1);
+    });
+
+    let touchX = null;
+    document.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].clientX; });
+    document.addEventListener('touchend', (e) => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+
+    const start = parseInt(location.hash.slice(1), 10);
+    show(Number.isNaN(start) ? 0 : start - 1);
+  </script>
+</body>
+</html>
